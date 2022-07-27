@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/Dark"
+    android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/play"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_weight="1"
+        android:backgroundTint="@color/white"
+        android:text="play"
+        android:textColor="@color/appcolor" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:text="OR"
+        android:textColor="@color/appcolor"
+        android:textSize="20sp"
+
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/read"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_weight="1"
+        android:backgroundTint="@color/white"
+        android:text="read"
+        android:textColor="@color/appcolor" />
+
+</LinearLayout>
