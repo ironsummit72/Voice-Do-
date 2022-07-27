@@ -9,9 +9,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 public class SqliteDatabase extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION=1;
-    public static final String DATABASE_NAME="voicedo.db";
-    public static final String TABLE_NAME="voicenotes";
+    public static final int DATABASE_VERSION = 1;
+    public static final String DATABASE_NAME = "voicedo.db";
+    public static final String TABLE_NAME = "voicenotes";
 
 
     public SqliteDatabase(@Nullable Context context) {
@@ -30,44 +30,40 @@ public class SqliteDatabase extends SQLiteOpenHelper {
         onCreate(db);
 
     }
-    public long insertdata(String title,String path,String booleann)
-    {
-        SQLiteDatabase database=this.getWritableDatabase();
-        ContentValues values=new ContentValues();
-        values.put("todotitle",title);
-        values.put("voicepath",path);
-        values.put("bool",booleann);
-       long rowid=database.insert("voicenotes",null,values);
-       return rowid;
 
-
-
+    public long insertdata(String title, String path, String booleann) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("todotitle", title);
+        values.put("voicepath", path);
+        values.put("bool", booleann);
+        long rowid = database.insert("voicenotes", null, values);
+        return rowid;
 
 
     }
-    public Cursor retrivedata()
-    {
-        SQLiteDatabase database=this.getReadableDatabase();
-        Cursor cursor=database.rawQuery("select*from voicenotes",null);
+
+    public Cursor retrivedata() {
+        SQLiteDatabase database = this.getReadableDatabase();
+        Cursor cursor = database.rawQuery("select*from voicenotes", null);
         return cursor;
 
     }
-    public void updatedata(int id,String bool)
-    {
+
+    public void updatedata(int id, String bool) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put("bool",bool);
+        cv.put("bool", bool);
 
-       db.update("voicenotes",cv,"ID = ?",new String[] {String.valueOf(id)});
+        db.update("voicenotes", cv, "ID = ?", new String[]{String.valueOf(id)});
 
 
     }
-    public void deletedata(int  id)
-    {
-        SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
 
-        sqLiteDatabase.delete("voicenotes","ID = ?",new String[] {String.valueOf(id)});
+    public void deletedata(int id) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 
+        sqLiteDatabase.delete("voicenotes", "ID = ?", new String[]{String.valueOf(id)});
 
 
     }

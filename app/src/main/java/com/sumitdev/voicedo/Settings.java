@@ -1,8 +1,5 @@
 package com.sumitdev.voicedo;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-
 import android.app.UiModeManager;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -10,6 +7,8 @@ import android.os.Bundle;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class Settings extends AppCompatActivity {
 

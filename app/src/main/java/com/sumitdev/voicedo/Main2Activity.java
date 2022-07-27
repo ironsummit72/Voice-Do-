@@ -1,11 +1,5 @@
 package com.sumitdev.voicedo;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.Manifest;
 import android.app.ActionBar;
 import android.app.Dialog;
@@ -28,6 +22,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
@@ -43,44 +43,43 @@ import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
 
-public class Main2Activity extends AppCompatActivity implements  EasyPermissions.PermissionCallbacks {
-   private Toolbar toolbar;
-private FloatingActionButton floatingActionButtonAddNote;
-private Dialog dialog,textdialog;
-  private   Button save,cancel,textsave,textcancel;
-   private ImageView startrecord;
-    private TextView texts,duration,titletext,addnote;
+public class Main2Activity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
     boolean bt = false;
-    private boolean recordstarted = false;
     SqliteDatabase sqliteDatabase;
-    private MediaRecorder mRecorder;
     Adapter adapter;
-    private Handler mHandler = new Handler();
-    private Runnable mTickExecutor = new Runnable() {
+    String path = "";
+    List<Content> todolist;
+    private Toolbar toolbar;
+    private FloatingActionButton floatingActionButtonAddNote;
+    private Dialog dialog, textdialog;
+    private Button save, cancel, textsave, textcancel;
+    private ImageView startrecord;
+    private TextView texts, duration, titletext, addnote;
+    private boolean recordstarted = false;
+    private MediaRecorder mRecorder;    private final Runnable mTickExecutor = new Runnable() {
         @Override
         public void run() {
             tick();
             mHandler.postDelayed(mTickExecutor, 100);
         }
     };
+    private final Handler mHandler = new Handler();
     private File mOutputFile;
     private long mStartTime = 0;
-    private int[] amplitudes = new int[100];
-    String path = "";
+    private final int[] amplitudes = new int[100];
     private int i = 0;
     private RecyclerView recyclerView;
-    List<Content>todolist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        floatingActionButtonAddNote=(FloatingActionButton)findViewById(R.id.floatingActionButtonAddNote);
-        recyclerView=(RecyclerView)findViewById(R.id.recyclerView);
-addnote=(TextView)findViewById(R.id.addnote);
-sqliteDatabase=new SqliteDatabase(this);
-todolist=new ArrayList<>();
+        toolbar = findViewById(R.id.toolbar);
+        floatingActionButtonAddNote = findViewById(R.id.floatingActionButtonAddNote);
+        recyclerView = findViewById(R.id.recyclerView);
+        addnote = findViewById(R.id.addnote);
+        sqliteDatabase = new SqliteDatabase(this);
+        todolist = new ArrayList<>();
 
         setSupportActionBar(toolbar);
         openrecordpermission();
@@ -88,15 +87,14 @@ todolist=new ArrayList<>();
 
         Cursor cursor = sqliteDatabase.retrivedata();
         while (cursor.moveToNext()) {
-            int uid=cursor.getInt(0);
+            int uid = cursor.getInt(0);
 
             String todotx = cursor.getString(1);
             String path = cursor.getString(2);
             String booleancheck = cursor.getString(3);
 
 
-
-            Content content = new Content(todotx,path,booleancheck,uid);
+            Content content = new Content(todotx, path, booleancheck, uid);
 
             adapter = new Adapter(todolist, this);
             recyclerView.setAdapter(adapter);
@@ -116,14 +114,10 @@ todolist=new ArrayList<>();
         recyclerView.setLayoutManager(linearLayoutManager);
 
 
-
-
-
-
         floatingActionButtonAddNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-openvoicedialog();
+                openvoicedialog();
             }
         });
     }
@@ -156,7 +150,6 @@ openvoicedialog();
     public void tos(String ss) {
         Toast.makeText(Main2Activity.this, ss, Toast.LENGTH_SHORT).show();
     }
-
 
     @AfterPermissionGranted(123)
     private void openrecordpermission() {
@@ -196,8 +189,8 @@ openvoicedialog();
 
         }
     }
-    private void openvoicedialog()
-    {
+
+    private void openvoicedialog() {
 
 
         dialog = new Dialog(this, R.style.Dialog);
@@ -207,39 +200,38 @@ openvoicedialog();
         dialog.show();
         Window window = dialog.getWindow();
         window.setLayout(ActionBar.LayoutParams.FILL_PARENT, ActionBar.LayoutParams.WRAP_CONTENT);
-        save=(Button)dialog.findViewById(R.id.save);
-        cancel=(Button)dialog.findViewById(R.id.cancel);
-        startrecord=(ImageView)dialog.findViewById(R.id.imageViewStop);
-        texts=(TextView)dialog.findViewById(R.id.textch);
-        duration=(TextView)dialog.findViewById(R.id.duration);
+        save = dialog.findViewById(R.id.save);
+        cancel = dialog.findViewById(R.id.cancel);
+        startrecord = dialog.findViewById(R.id.imageViewStop);
+        texts = dialog.findViewById(R.id.textch);
+        duration = dialog.findViewById(R.id.duration);
         startrecord.setBackground(getResources().getDrawable(R.drawable.ic_mic_green_24dp));
         startrecord.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        if (bt == false) {
+            @Override
+            public void onClick(View v) {
+                if (bt == false) {
 
-            startrecord.setBackground(getResources().getDrawable(R.drawable.ic_stop_black_24dp));
+                    startrecord.setBackground(getResources().getDrawable(R.drawable.ic_stop_black_24dp));
 
-            startRecording();
-            save.setEnabled(true);
-            recordstarted = true;
-
-
-            texts.setText("Tap to Stop Recording");
-            bt = true;
-        } else {
-
-            texts.setText("Tap to Start  Recording");
-            startrecord.setBackground(getResources().getDrawable(R.drawable.ic_mic_green_24dp));
-            openTextDialog();
+                    startRecording();
+                    save.setEnabled(true);
+                    recordstarted = true;
 
 
-        }
-    }
+                    texts.setText("Tap to Stop Recording");
+                    bt = true;
+                } else {
+
+                    texts.setText("Tap to Start  Recording");
+                    startrecord.setBackground(getResources().getDrawable(R.drawable.ic_mic_green_24dp));
+                    openTextDialog();
 
 
+                }
+            }
 
-});
+
+        });
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -309,7 +301,7 @@ openvoicedialog();
 
     private File getOutputFile() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmssSSS", Locale.US);
-        path = Environment.getExternalStorageDirectory().getAbsolutePath().toString()
+        path = Environment.getExternalStorageDirectory().getAbsolutePath()
                 + "/VoiceDo/Vdo _"
                 + dateFormat.format(new Date())
                 + ".m4a";
@@ -335,8 +327,8 @@ openvoicedialog();
 
 
     }
-    private void openTextDialog()
-    {
+
+    private void openTextDialog() {
         pauserec();
         stopRecording(true);
         textdialog = new Dialog(this);
@@ -344,20 +336,20 @@ openvoicedialog();
         textdialog.show();
         Window window = textdialog.getWindow();
         window.setLayout(ActionBar.LayoutParams.FILL_PARENT, ActionBar.LayoutParams.WRAP_CONTENT);
-        titletext=(EditText)textdialog.findViewById(R.id.titletext);
-        textsave=(Button)textdialog.findViewById(R.id.textsave);
-        textcancel=(Button)textdialog.findViewById(R.id.textcancel);
+        titletext = textdialog.findViewById(R.id.titletext);
+        textsave = textdialog.findViewById(R.id.textsave);
+        textcancel = textdialog.findViewById(R.id.textcancel);
         textsave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            String title= titletext.getText().toString();
-            if (titletext.getText().toString().isEmpty())
-            {
-                tos("Enter Title");
-            }
-                else {  long dd= sqliteDatabase.insertdata(title,path,"UNCHECKED");
-                textdialog.dismiss();
-                dialog.dismiss();}
+                String title = titletext.getText().toString();
+                if (titletext.getText().toString().isEmpty()) {
+                    tos("Enter Title");
+                } else {
+                    long dd = sqliteDatabase.insertdata(title, path, "UNCHECKED");
+                    textdialog.dismiss();
+                    dialog.dismiss();
+                }
                 recreate();
 
 
@@ -375,14 +367,16 @@ openvoicedialog();
         });
 
 
-
     }
+
     public void pauserec() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             mRecorder.pause();
             mHandler.removeCallbacks(mTickExecutor);
         }
     }
+
+
 
 }
 

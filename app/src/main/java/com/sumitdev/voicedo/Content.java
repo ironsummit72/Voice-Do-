@@ -1,9 +1,16 @@
 package com.sumitdev.voicedo;
 
 public class Content {
-    String todo,path,booleancheck;
+    String todo, path, booleancheck;
     int uid;
 
+
+    public Content(String todo, String path, String booleancheck, int uid) {
+        this.todo = todo;
+        this.path = path;
+        this.booleancheck = booleancheck;
+        this.uid = uid;
+    }
 
     public String getTodo() {
         return todo;
@@ -27,12 +34,5 @@ public class Content {
 
     public void setBooleancheck(String booleancheck) {
         this.booleancheck = booleancheck;
-    }
-
-    public Content(String todo, String path, String booleancheck, int uid) {
-        this.todo = todo;
-        this.path = path;
-        this.booleancheck = booleancheck;
-        this.uid = uid;
     }
 }

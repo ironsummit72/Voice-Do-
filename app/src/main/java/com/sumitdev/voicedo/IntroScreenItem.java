@@ -1,17 +1,16 @@
 package com.sumitdev.voicedo;
 
-public class IntroScreenItem  {
+public class IntroScreenItem {
+    String Title, Description;
+    int screenimage;
+
     public IntroScreenItem() {
     }
-
     public IntroScreenItem(String title, String description, int screenimage) {
         Title = title;
         Description = description;
         this.screenimage = screenimage;
     }
-
-    String Title,Description;
-    int screenimage;
 
     public String getTitle() {
         return Title;
